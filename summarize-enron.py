@@ -58,7 +58,7 @@ def plot_email_num_overtime(data: pd.Series, derived_data: pd.DataFrame) -> None
     ax2.set_xticklabels(data.index[::25], rotation=45)
     ax2.set_xlabel('weeks (format of %Y-%U)', fontsize=15)
     ax2.set_ylabel('number of weekly sent', fontsize=15)
-    ax2.set_title('changing of accumulative weekly sent over time (the most prolific 100 individuals)', fontsize=20)
+    ax2.set_title('changing of total weekly sent over time (the most prolific 100 individuals)', fontsize=20)
 
     ax3 = plt.subplot(222)
     ax3.hist(sent / weeks, density=False, bins=30)
