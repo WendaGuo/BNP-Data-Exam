@@ -1,3 +1,8 @@
+"""
+This file is for solve the Data Exam of BNP Paribas.
+Contributor: Wenda Guo
+Email: wg2328@columbia.edu
+"""
 import sys
 import os
 import numpy as np
@@ -32,16 +37,15 @@ def count_sent_received_on_person(data: pd.DataFrame, exploded_data: pd.DataFram
     return result
 
 
-def plot_email_num_overtime(data: pd.Series, derived_data: pd.DataFrame) -> None:
+def plot_email_num_overtime(weekly_sent: pd.Series, person_sent_received: pd.DataFrame) -> None:
     """
     This function plots a graph required by question (2)
-    params:
-        `data`: data frame `weekly_sent`;
-        `derived_data`: data frame `person_sent_received`
+    :param weekly_sent: the table of total number of sending by the most prolific 100 individuals grouped by time (week)
+    :param person_sent_received, the table produced for question (1)
     """
     # compute number of weeks during which the most prolific 100 individual has sent emails
-    weeks = data.shape[0]
-    sent = derived_data.iloc[-100:, 0]
+    weeks = weekly_sent.shape[0]
+    sent = person_sent_received.iloc[-100:, 0]
 
     fig = plt.figure(figsize=(24, 16))
 
@@ -53,9 +57,9 @@ def plot_email_num_overtime(data: pd.Series, derived_data: pd.DataFrame) -> None
     ax1.set_ylabel('number of weekly average sent', fontsize=15)
 
     ax2 = plt.subplot(221)
-    ax2.plot(data.index, data)
-    ax2.set_xticks(data.index[::25])
-    ax2.set_xticklabels(data.index[::25], rotation=45)
+    ax2.plot(weekly_sent.index, weekly_sent)
+    ax2.set_xticks(weekly_sent.index[::25])
+    ax2.set_xticklabels(weekly_sent.index[::25], rotation=45)
     ax2.set_xlabel('weeks (format of %Y-%U)', fontsize=15)
     ax2.set_ylabel('number of weekly sent', fontsize=15)
     ax2.set_title('changing of total weekly sent over time (the most prolific 100 individuals)', fontsize=20)
@@ -75,6 +79,9 @@ def plot_unique_contacts(relative: pd.DataFrame, weekly_sent: pd.DataFrame,
                          unique_contacts: pd.DataFrame) -> None:
     """
     This function plots a graph required by question (3)
+    :param relative: a table of relative number (ratio of unique contacts over total personal sending) of the most prolific 100 individuals
+    :param weekly_sent: the same as `weekly_sent` in function `plot_email_num_overtime`
+    :param unique_contacts: a table of unique contacts for each individual grouped by time (week)
     """
     weekly = weekly_sent[unique_contacts.index].dropna()
     weeks = unique_contacts.shape[0]
